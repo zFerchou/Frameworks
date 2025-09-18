@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 40),
-            Image.asset('assets/images/app_logo.png', width: 160, height: 160),
+            Image.asset('assets/images/logo.png', width: 160, height: 160),
             const SizedBox(height: 20),
             Text('Frameworks Móvil', style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 8),
