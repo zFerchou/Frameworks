@@ -1,57 +1,124 @@
 import 'package:flutter/material.dart';
 import '../data/frameworks_data.dart';
+import '../models/framework_model.dart';
 
 class CompareScreen extends StatelessWidget {
   const CompareScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Ejemplo: comparar rendimiento, curva de aprendizaje, comunidad (1-5)
-    final metrics = {
-      'Flutter': [5, 3, 5],
-      'React Native': [4, 3, 5],
-      'Ionic': [3, 2, 4],
-      'Kotlin MP': [4, 4, 3],
-    };
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Comparativa')),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
+      appBar: AppBar(
+        title: const Text('Comparativa Rápida'),
+        centerTitle: true,
+        backgroundColor: Colors.indigo,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DataTable(columns: const [
-              DataColumn(label: Text('Framework')),
-              DataColumn(label: Text('Rendimiento')),
-              DataColumn(label: Text('Curva aprendizaje')),
-              DataColumn(label: Text('Comunidad')),
-            ], rows: frameworksList.map((fw) {
-              final m = metrics[fw.name]!;
-              return DataRow(cells: [
-                DataCell(Text(fw.name)),
-                DataCell(Row(children: List.generate(m[0], (i) => const Icon(Icons.star, size: 14)))),
-                DataCell(Row(children: List.generate(m[1], (i) => const Icon(Icons.school, size: 14)))),
-                DataCell(Row(children: List.generate(m[2], (i) => const Icon(Icons.people, size: 14)))),
-              ]);
-            }).toList()),
-            const SizedBox(height: 12),
-            const Text('Comparativa por características (interactiva)'),
             const SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                itemCount: frameworksList.length,
-                itemBuilder: (context, index) {
-                  final fw = frameworksList[index];
-                  return Card(
-                    child: ListTile(
-                      leading: Image.asset(fw.imageAsset, width: 48, height: 48),
-                      title: Text(fw.name),
-                      subtitle: Text(fw.shortDescription),
+            const Text(
+              'Comparación de frameworks móviles',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigo),
+            ),
+            const SizedBox(height: 12),
+
+            // Tabla comparativa
+            Table(
+              border: TableBorder.all(color: Colors.indigo.shade100),
+              columnWidths: const {
+                0: FixedColumnWidth(120),
+              },
+              children: [
+                // Encabezado
+                TableRow(
+                  decoration: BoxDecoration(color: Colors.indigo.shade50),
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Característica', style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                  );
-                },
+                    for (var fw in frameworksList)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(fw.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                  ],
+                ),
+                // Lenguaje
+                TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Lenguaje'),
+                    ),
+                    for (var fw in frameworksList)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(fw.language),
+                      ),
+                  ],
+                ),
+                // Ventajas (solo resumen)
+                TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Ventajas'),
+                    ),
+                    for (var fw in frameworksList)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(fw.advantages.join(', '), maxLines: 3, overflow: TextOverflow.ellipsis),
+                      ),
+                  ],
+                ),
+                // Desventajas
+                TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Desventajas'),
+                    ),
+                    for (var fw in frameworksList)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(fw.disadvantages.join(', '), maxLines: 3, overflow: TextOverflow.ellipsis),
+                      ),
+                  ],
+                ),
+                // Ejemplos
+                TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Ejemplos'),
+                    ),
+                    for (var fw in frameworksList)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(fw.examples.join(', '), maxLines: 2, overflow: TextOverflow.ellipsis),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Volver'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigo,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

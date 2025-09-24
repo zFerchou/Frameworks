@@ -8,10 +8,8 @@ class FrameworkModel {
   final List<String> examples;
   final String imageAsset;
 
-  final String? moreInfo; // Información adicional sobre el framework
-
-  // 🔥 Lo dejamos opcional
-  final List<CarouselItem>? carousel;
+  final String moreInfo; // Información adicional (ahora requerido)
+  final List<CarouselItem> carousel; // Carrusel (ahora requerido)
 
   FrameworkModel({
     required this.id,
@@ -22,8 +20,8 @@ class FrameworkModel {
     required this.disadvantages,
     required this.examples,
     required this.imageAsset,
-    this.carousel,
-    this.moreInfo, 
+    required this.carousel,
+    required this.moreInfo,
   });
 }
 
